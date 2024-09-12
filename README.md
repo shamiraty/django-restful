@@ -1,13 +1,24 @@
-# **DJANGO REST API**
+# **DJANGO REST API DOCS**
 
-## **AUTOMATED DATA SYNCHRONIZATION AND CLIENT-SIDE DISPLAY OF DOCUMENTS FROM REST API TO MYSQL USING PHP AND AJAX**
+## **AUTOMATED DATA SYNCHRONIZATION AND CLIENT-SIDE DISPLAY OF RECORDS FROM REST API TO CLIENT MYSQL USING OPEN SOURCE TECHNOLOGIES**
 ---
-### **Efficiently Automating API-Driven Document Management with MySQL and Dynamic Client-Side Data Display**
+### **Efficiently Automating API-Driven Record Management with MySQL and Dynamic Client-Side Data Display**
 
 **Technologies:**  
 *Python, HTML, JavaScript, CSS, Bootstrap, jQuery, AJAX, PHP, MySQL*
 
 ---
+### **What Will Be Done in This Project?**
+
+1. A Django project will be created.
+2. The Django REST Framework will be installed.
+3. Two models will be developed.
+4. API routing will be configured.
+5. An API authentication key will be generated for each connecting client.
+6. Data will be added to the models.
+7. A client-side application will be built to interact with the API.
+8. AJAX will be used to fetch data from the API.
+9. The fetched data will be stored in the client's MySQL database.
 
 ### **Summary:**
 
@@ -420,179 +431,6 @@ curl -H "Authorization: Api-Key vlWnzo3b.LzCsbJisS4JxZvFA9IqM5Z0udtSgjnpq" http:
 </body>
 </html>
 
-```html
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Data Display</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Material Design Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/css/mdb.min.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        .card-img {
-            height: 100%;
-            object-fit: cover;
-            width: 100%;
-        }
-        .card {
-            margin-bottom: 1.5rem;
-        }
-        .card-body {
-            display: flex;
-            flex-direction: column;
-        }
-        .card-details {
-            margin-top: 10px;
-        }
-        .loading-spinner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-        }
-        .spinner-border {
-            width: 2rem;
-            height: 2rem;
-        }
-        .container-fluid-custom {
-            margin: 0 auto;
-            padding-left: 100px;
-            padding-right: 100px;
-        }
-    </style>
-</head>
-<body class="bg-primary">
-
-    <div class="container-fluid-custom mt-5">
-        <h1 class="text-center mb-4 text-white">DJANGO RESTFUL API  WITH API KEY</h1>
-        
-        <!-- Documents Container -->
-        <div id="documents" class="row"></div>
-    </div>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <!-- MDB JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/js/mdb.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            // API Key and URLs
-            const API_KEY = 'vlWnzo3b.LzCsbJisS4JxZvFA9IqM5Z0udtSgjnpq';
-            const DOCUMENT_API_URL = 'http://127.0.0.1:8000/api/documents/';
-            const DETAILS_API_URL = 'http://127.0.0.1:8000/api/document-details/';
-
-            // Fetch documents and their details from the APIs
-            $.when(
-                $.ajax({
-                    url: DOCUMENT_API_URL,
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Api-Key ' + API_KEY
-                    }
-                }),
-                $.ajax({
-                    url: DETAILS_API_URL,
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Api-Key ' + API_KEY
-                    }
-                })
-            ).done(function (documentsData, detailsData) {
-                let documents = documentsData[0];
-                let details = detailsData[0];
-                let detailsMap = {};
-
-                // Map DocumentDetails by document ID
-                details.forEach(detail => {
-                    if (!detailsMap[detail.document.id]) {
-                        detailsMap[detail.document.id] = [];
-                    }
-                    detailsMap[detail.document.id].push(detail);
-                });
-
-                let output = '';
-                documents.forEach(document => {
-                    let documentDetails = detailsMap[document.id] || [];
-                    let detailsList = '';
-
-                    documentDetails.forEach(detail => {
-                        detailsList += `
-                            <ul class="list-group-item bg-light">
-                                <li class="list-group-item">Additional Info: ${detail.additional_info}</li>
-                                <li class="list-group-item">Reference Number: ${detail.reference_number}</li>
-                                <li class="list-group-item">Status: ${detail.status}</li>
-                                <li class="list-group-item">Category: ${detail.category}</li>
-                                <li class="list-group-item">Tags: ${detail.tags}</li>
-                                <li class="list-group-item">Remarks: ${detail.remarks}</li>
-                            </ul>
-                        `;
-                    });
-
-                    // Card with loading spinner
-                    output += `
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="row no-gutters">
-                                    <div class="col-md-6">
-                                        <!-- Placeholder for image and loading spinner -->
-                                        <div class="loading-spinner" id="loading-${document.id}">
-                                            <div class="spinner-border text-success" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <img src="${document.image}" class="card-img" id="image-${document.id}" alt="Document Image" style="display:none;">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <div class="card-content">
-                                                <h5 class="card-title">${document.title}</h5>
-                                                <p class="card-text">${document.description}</p>
-                                                <a href="${document.file}" class="btn btn-primary" download>
-                                                    <i class="fas fa-download"></i> Download File
-                                                </a>
-                                                <span class="badge badge-info">${document.uploaded_by}</span>
-                                            </div>
-                                            <div class="card-details">
-                                                <ul class="list-group list-group-flush">
-                                                    ${detailsList}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer text-muted">
-                                            <small>Uploaded on ${new Date(document.created_at).toLocaleDateString()}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-
-                    // Simulate loading time for each card
-                    setTimeout(function () {
-                        // Hide the spinner and show the image once loaded
-                        $(`#loading-${document.id}`).hide();
-                        $(`#image-${document.id}`).fadeIn();
-                    }, 1000); // Simulate a 1 second delay for loading the image
-                });
-
-                // Show document cards
-                $('#documents').html(output).fadeIn();
-            }).fail(function (error) {
-                console.log("Error fetching data: ", error);
-            });
-        });
-    </script>
-</body>
-</html>
 ```
 ---
 ## PART  2 PHP LOAD DATA FROM DJANGO API TO CLIENT MYSQL SERVER
