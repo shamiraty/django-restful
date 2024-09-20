@@ -284,68 +284,100 @@ curl -H "Authorization: Api-Key vlWnzo3b.LzCsbJisS4JxZvFA9IqM5Z0udtSgjnpq" http:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Data Display</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Material Design Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/css/mdb.min.css">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="bootstrap/css/ajax_cloudfare.css" rel="stylesheet">
+    <link href="bootstrap/css/fonts.css" rel="stylesheet">
+    <link href="bootstrap/css/datatable.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap.min2.css" rel="stylesheet">
+    <link href="bootstrap/css/ajax_jquery.css" rel="stylesheet">
+    <link href="bootstrap/awesome/css/all.min.css" rel="stylesheet">
+    <link href="bootstrap/awesome/css/fontawesome.min.css" rel="stylesheet">
+    <link href="bootstrap/css/awaresome.css" rel="stylesheet">
+    <link href="bootstrap/css/bootstrap_buttons.css" rel="stylesheet">
     <style>
-        .card-img {
+        /* Ensure background stays consistent with blur */
+        html, body {
+            margin: 0;
+            padding: 0;
             height: 100%;
-            object-fit: cover;
             width: 100%;
+            background: url('images/q.jpg') no-repeat center center fixed;
+            background-size: cover;
         }
-        .card {
-            margin-bottom: 1.5rem;
+
+        /* Blur effect that covers the entire body */
+        .bg-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(10px);
+            background-color: rgba(0, 0, 0, 0.6); /* Optional dark overlay */
+            z-index: 1;
         }
-        .card-body {
-            display: flex;
-            flex-direction: column;
+
+        /* Ensure container sits above the blur layer */
+        .content {
+            position: relative;
+            z-index: 2;
         }
-        .card-details {
-            margin-top: 10px;
+
+        .accordion-button:focus {
+            box-shadow: none;
         }
-        .loading-spinner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
+
+        .card-header {
+            background-color: #343a40;
+            color: #fff;
         }
-        .spinner-border {
-            width: 2rem;
-            height: 2rem;
+
+        .accordion-button {
+            color: #fff;
+            background-color: #343a40;
         }
-        .container-fluid-custom {
-            margin: 0 auto;
-            padding-left: 100px;
-            padding-right: 100px;
+
+        .accordion-button.collapsed {
+            color: #fff;
+            background-color: #343a40;
+        }
+
+        .accordion-body {
+            background-color: #f8f9fa;
         }
     </style>
 </head>
-<body class="bg-primary">
+<body>
 
-    <div class="container-fluid-custom mt-5">
-        <h1 class="text-center mb-4 text-white">DJANGO RESTFUL API  WITH API KEY</h1>
-        
-        <!-- Documents Container -->
-        <div id="documents" class="row"></div>
+    <!-- Background Blur Layer -->
+    <div class="bg-blur"></div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <!-- Accordion for documents -->
+        <div class="container">
+            <div class="card bg-secondary mt-5">
+                <div class="card-body">
+            <div class="accordion" id="documentsAccordion">
+                <!-- Dynamic accordion items will be injected here -->
+            </div>
+        </div>
+        </div>
+    </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <!-- MDB JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.2/js/mdb.min.js"></script>
-
+    <script src="bootstrap/js/jquery.js"></script>
+    <script src="bootstrap/js/jquery_ajax.js"></script>
+    <script src="bootstrap/js/jquery_datatable.js"></script>
+    <script src="bootstrap/js/datatable.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
     <script>
+        
         $(document).ready(function () {
-            // API Key and URLs
             const API_KEY = 'vlWnzo3b.LzCsbJisS4JxZvFA9IqM5Z0udtSgjnpq';
-            const DOCUMENT_API_URL = 'http://127.0.0.1:8000/api/documents/';
-            const DETAILS_API_URL = 'http://127.0.0.1:8000/api/document-details/';
+            //const DOCUMENT_API_URL = 'http://127.0.0.1:8000/api/documents/';
+            //const DETAILS_API_URL = 'http://127.0.0.1:8000/api/document-details/';
+            const DOCUMENT_API_URL = 'https://openkey.pythonanywhere.com/api/documents/';
+            const DETAILS_API_URL = 'https://openkey.pythonanywhere.com/api/document-details/';
 
             // Fetch documents and their details from the APIs
             $.when(
@@ -377,72 +409,63 @@ curl -H "Authorization: Api-Key vlWnzo3b.LzCsbJisS4JxZvFA9IqM5Z0udtSgjnpq" http:
                 });
 
                 let output = '';
-                documents.forEach(document => {
+                documents.forEach((document, index) => {
                     let documentDetails = detailsMap[document.id] || [];
                     let detailsList = '';
 
                     documentDetails.forEach(detail => {
                         detailsList += `
-                            <ul class="list-group-item bg-light">
-                                <li class="list-group-item">Additional Info: ${detail.additional_info}</li>
-                                <li class="list-group-item">Reference Number: ${detail.reference_number}</li>
-                                <li class="list-group-item">Status: ${detail.status}</li>
-                                <li class="list-group-item">Category: ${detail.category}</li>
-                                <li class="list-group-item">Tags: ${detail.tags}</li>
-                                <li class="list-group-item">Remarks: ${detail.remarks}</li>
-                            </ul>
+                            <li class="list-group-item">
+                                Additional Info: ${detail.additional_info}
+                            </li>
+                            <li class="list-group-item">
+                                Reference Number: ${detail.reference_number}
+                            </li>
+                            <li class="list-group-item">
+                                Status: ${detail.status}
+                            </li>
+                            <li class="list-group-item">
+                                Category: ${detail.category}
+                            </li>
+                            <li class="list-group-item">
+                                Tags: ${detail.tags}
+                            </li>
+                            <li class="list-group-item">
+                                Remarks: ${detail.remarks}
+                            </li>
                         `;
                     });
 
-                    // Card with loading spinner
                     output += `
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="row no-gutters">
-                                    <div class="col-md-6">
-                                        <!-- Placeholder for image and loading spinner -->
-                                        <div class="loading-spinner" id="loading-${document.id}">
-                                            <div class="spinner-border text-success" role="status">
-                                                <span class="sr-only">Loading...</span>
-                                            </div>
-                                        </div>
-                                        <img src="${document.image}" class="card-img" id="image-${document.id}" alt="Document Image" style="display:none;">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card-body">
-                                            <div class="card-content">
-                                                <h5 class="card-title">${document.title}</h5>
-                                                <p class="card-text">${document.description}</p>
-                                                <a href="${document.file}" class="btn btn-primary" download>
-                                                    <i class="fas fa-download"></i> Download File
-                                                </a>
-                                                <span class="badge badge-info">${document.uploaded_by}</span>
-                                            </div>
-                                            <div class="card-details">
-                                                <ul class="list-group list-group-flush">
-                                                    ${detailsList}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="card-footer text-muted">
-                                            <small>Uploaded on ${new Date(document.created_at).toLocaleDateString()}</small>
-                                        </div>
-                                    </div>
+                        <div class="card mt-2">
+                            <div class="card-header" id="heading${index}">
+                                <h5 class="mb-0">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="false" aria-controls="collapse${index}">
+                                        <i class="fas fa-file-alt accordion-icon"></i>     ${document.title}
+                                    </button>
+                                </h5>
+                            </div>
+
+                            <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}" data-bs-parent="#documentsAccordion">
+                                <div class="accordion-body">
+                                    <img src="${document.image}" class="img-thumbnail" alt="Document Image" style="max-width: 150px; margin-bottom: 15px;">
+                                    <p><strong>Description:</strong> ${document.description}</p>
+                                    <p><strong>Uploaded By:</strong> <span class="badge bg-primary">${document.uploaded_by}</span></p>
+                                    <p><strong>Created At:</strong> ${new Date(document.created_at).toLocaleDateString()}</p>
+                                    <ul class="list-group mb-3">
+                                        ${detailsList}
+                                    </ul>
+                                    <a href="${document.file}" class="btn btn-primary" download>
+                                        <i class="fas fa-download"></i> Download File
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     `;
-
-                    // Simulate loading time for each card
-                    setTimeout(function () {
-                        // Hide the spinner and show the image once loaded
-                        $(`#loading-${document.id}`).hide();
-                        $(`#image-${document.id}`).fadeIn();
-                    }, 1000); // Simulate a 1 second delay for loading the image
                 });
 
-                // Show document cards
-                $('#documents').html(output).fadeIn();
+                // Show document accordion
+                $('#documentsAccordion').html(output);
             }).fail(function (error) {
                 console.log("Error fetching data: ", error);
             });
@@ -450,6 +473,7 @@ curl -H "Authorization: Api-Key vlWnzo3b.LzCsbJisS4JxZvFA9IqM5Z0udtSgjnpq" http:
     </script>
 </body>
 </html>
+
 
 ```
 ---
