@@ -1,12 +1,24 @@
-# **DJANGO REST API DOCS**
-![hh](https://github.com/user-attachments/assets/6db67633-2340-4836-b16b-d5be4cebca3b)
-## **AUTOMATED DATA SYNCHRONIZATION AND CLIENT-SIDE DISPLAY OF RECORDS FROM REST API TO CLIENT MYSQL USING OPEN SOURCE TECHNOLOGIES**
+# **DJANGO REST API DOCUMENTATION**
+![nne](https://github.com/user-attachments/assets/36333203-12af-4fad-9bff-d4b864446f56)
+
+## **AUTOMATED DATA SYNCHRONIZATION AND CLIENT-SIDE DISPLAY OF RECORDS FROM A REST API TO CLIENT-SIDE MYSQL USING OPEN SOURCE TECHNOLOGIES**
+
+### **STREAMLINING API-DRIVEN RECORD MANAGEMENT: FULLY AUTOMATED DATA FLOW WITH MYSQL AND REAL-TIME CLIENT-SIDE UPDATES**
+
 ### **Efficiently Automating API-Driven Record Management with MySQL and Dynamic Client-Side Data Display**
+
 **Technologies:**  
 *Python, HTML, JavaScript, CSS, Bootstrap, jQuery, AJAX, PHP, MySQL*
-**Frontend Integration Documentation**
-This is the frontend integration documentation: [https://github.com/shamiraty/api-calling-client-side](https://github.com/shamiraty/api-calling-client-side)
 
+**Frontend Integration Documentation**
+This is the frontend integration documentation: [Link](https://github.com/shamiraty/api-calling-client-side)
+
+
+**Online Demo**
+open live demo [Link]((https://openkey.pythonanywhere.com/)
+
+- `username:  demo`
+- `password: demo1234`
 ---
 ### **What Will Be Done in This Project?**
 
