@@ -11,11 +11,11 @@
 *Python, HTML, JavaScript, CSS, Bootstrap, jQuery, AJAX, PHP, MySQL*
 
 **Frontend Integration Documentation**
-This is the frontend integration documentation: [Link](https://github.com/shamiraty/api-calling-client-side)
+This is the frontend integration documentation: [Click](https://github.com/shamiraty/api-calling-client-side)
 
 
 **Online Demo**
-open live demo [Link]((https://openkey.pythonanywhere.com/)
+open live demo [Click](https://openkey.pythonanywhere.com/)
 
 - `username:  demo`
 - `password: demo1234`
