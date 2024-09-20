@@ -1,11 +1,11 @@
 # **DJANGO REST API DOCS**
-
+![hh](https://github.com/user-attachments/assets/6db67633-2340-4836-b16b-d5be4cebca3b)
 ## **AUTOMATED DATA SYNCHRONIZATION AND CLIENT-SIDE DISPLAY OF RECORDS FROM REST API TO CLIENT MYSQL USING OPEN SOURCE TECHNOLOGIES**
----
 ### **Efficiently Automating API-Driven Record Management with MySQL and Dynamic Client-Side Data Display**
-
 **Technologies:**  
 *Python, HTML, JavaScript, CSS, Bootstrap, jQuery, AJAX, PHP, MySQL*
+**Frontend Integration Documentation**
+This is the frontend integration documentation: [https://github.com/shamiraty/api-calling-client-side](https://github.com/shamiraty/api-calling-client-side)
 
 ---
 ### **What Will Be Done in This Project?**
@@ -25,6 +25,14 @@
 This project combines the power of a Django RESTful API with PHP to automate the fetching, storing, and displaying of document data and its associated details. By utilizing secure API keys, the system fetches document information—such as titles, descriptions, and uploaded files—along with additional metadata like status, reference numbers, and categories, which are seamlessly stored in a MySQL database. The project employs `INSERT ... ON DUPLICATE KEY UPDATE` queries to prevent data duplication and ensure efficient updates in the database.
 
 On the client side, data is dynamically displayed using AJAX, jQuery, HTML, Bootstrap, and CSS. Documents are presented in an interactive and responsive format, allowing users to browse through the information easily. The combination of server-side automation and client-side display delivers a fully integrated, scalable solution for efficient document management, enhancing both data handling and user experience.
+
+### **Security**
+
+1. **API Key Authentication:** API keys will be used to restrict access to the API. Each client will need a valid API key to interact with the API. This prevents unauthorized access.
+2. **CORS Configuration:** The API will be configured with CORS headers to allow only specific domains to access it. During development, all origins will be allowed, but in production, it should be restricted to the client’s domain.
+3. **HTTPS:** It's recommended to deploy the API over HTTPS in production to encrypt data during transmission.
+4. **Access Control:** Only authenticated users with a valid API key will be able to access certain endpoints of the API.
+5. **SQL Injection Protection:** Django ORM automatically protects against SQL injection, ensuring that the database remains secure from malicious queries.
 
 
 ### STEP 1
